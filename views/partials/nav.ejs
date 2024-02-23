@@ -2,7 +2,7 @@
     <img src="logo.jpg" class="logo-nav">
     <h1 class="project-name">EyeTower</h1>
     <div class='nav-btn-container'>
-        <a href="User_P.html" class="nav-btn">Home</a>
+        <a href="/User_H" class="nav-btn">Home</a>
         <a id="logout" class="nav-btn">Logout</a>
     </div>
 </nav>
@@ -10,7 +10,7 @@
     const logout = document.getElementById('logout');
 
     logout.addEventListener('click', (e) => {
-      const endpoint = '/auth/Logout';
+      const endpoint = '/auth/logout';
       fetch(endpoint, {
         method: 'POST',
       })

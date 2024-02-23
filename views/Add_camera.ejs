@@ -1,0 +1,28 @@
+<html>
+
+<%- include("./partials/head.ejs") %>
+
+<body>
+    <%- include("./partials/nav.ejs") %>
+    <div class="container-form">
+        <h1>Add Camera</h1>
+        <form action="/add_camera" method="POST">
+            <div class="form-group">
+                <label for="location">Location:</label>
+                <input type="text" id="location" name="location" required>
+            </div>
+        <div class="form-group">
+            <label for="severity">Severity:</label>
+            <input type="number" id="severity" name="severity" required>
+        </div>
+        <button type="submit" class="button">Add Camera</button>
+        </form>
+        <% if(typeof error !== 'undefined') { %>
+            <p style="color:red"><%= error %></p>
+        <% } %>
+        <% if(typeof success !== 'undefined') { %>
+            <p style="color:rgb(0, 255, 0)"><%= success %></p>
+        <% } %>
+    </div>
+</body>
+</html>

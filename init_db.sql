@@ -39,7 +39,7 @@ CREATE TABLE IF NOT EXISTS Alert (
 );
 
 
-INSERT INTO account (email, pass, type, name) VALUES
+INSERT INTO account (email, password, type, name) VALUES
 ('admin1@example.com', 'password1', 'admin', 'admin1'),
 ('admin2@example.com', 'password2', 'admin', 'admin2'),
 ('user1@example.com', 'password1', 'user', 'user1'),

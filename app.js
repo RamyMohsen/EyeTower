@@ -1,6 +1,7 @@
 const express = require('express');
 const db = require('./Classes/Database')
-const routes = require('./routes/routes');
+const get_routes = require('./routes/get_routes');
+const post_routes = require('./routes/post_routes');
 const authRoutes = require('./routes/auth');
 const session = require('express-session');
 const flash = require('connect-flash');
@@ -29,7 +30,8 @@ app.use(flash());
 app.use('/auth', authRoutes);
 
 // routes
-app.use(routes);
+app.use(get_routes);
+app.use(post_routes);
 
 // redirects
 app.get('/', (req, res) => {

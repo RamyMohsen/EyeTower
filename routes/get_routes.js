@@ -1,10 +1,10 @@
 const express = require('express');
 const router = express.Router();
 
-// Routes
+
 router.get('/Add_person', (req, res) => {
-    if(req.session.loggedin == true){  //If user is not logged in redirect to login page
-        res.render('Add_person', { title: 'Add Person' });
+    if(req.session.loggedin == true && req.session.user.type === 'admin'){  //If user is not logged in redirect to login page
+        res.render('Add_person', { title: 'Add Person' , error:req.flash('error-msg'), success:req.flash('success-msg')});
     }else{
         req.flash('error-msg','You must login first');
         res.redirect('/Login')
@@ -13,13 +13,22 @@ router.get('/Add_person', (req, res) => {
                 
   
 router.get('/Add_user', (req, res) => {
-    if(req.session.loggedin == true){  //If user is not logged in redirect to login page
-        res.render('Add_user', { title: 'Add User' });
+    if(req.session.loggedin == true && req.session.user.type === 'admin'){  //If user is not logged in redirect to login page
+        res.render('Add_user', { title: 'Add User' , error:req.flash('error-msg'), success:req.flash('success-msg')});
     }else{
         req.flash('error-msg','You must login first');
         res.redirect('/Login')
     }
-});      
+});
+
+router.get('/Add_camera', (req, res) => {
+    if(req.session.loggedin == true && req.session.user.type === 'admin'){  //If user is not logged in redirect to login page
+        res.render('Add_camera', { title: 'Add Cameras' , error:req.flash('error-msg'), success:req.flash('success-msg')});
+    }else{
+        req.flash('error-msg','You must login first');
+        res.redirect('/Login')
+    }
+})
 
 router.get('/Find', (req, res) => {
     console.log(req.session)
@@ -33,7 +42,7 @@ router.get('/Find', (req, res) => {
             
 
 router.get('/List_persons', (req, res) => {
-    if(req.session.loggedin == true){  //If user is not logged in redirect to login page
+    if(req.session.loggedin == true && req.session.user.type === 'admin'){  //If user is not logged in redirect to login page
         res.render('List_persons', { title: 'List All Persons' });
     }else{
         req.flash('error-msg','You must login first');
@@ -43,8 +52,17 @@ router.get('/List_persons', (req, res) => {
             
 
 router.get('/List_users', (req, res) => {
-    if(req.session.loggedin == true){  //If user is not logged in redirect to login page
+    if(req.session.loggedin == true && req.session.user.type === 'admin'){  //If user is not logged in redirect to login page
         res.render('List_users', { title: 'List All Users' });
+    }else{
+        req.flash('error-msg','You must login first');
+        res.redirect('/Login')
+    }
+});
+
+router.get('/List_cameras', (req, res) => {
+    if(req.session.loggedin == true && req.session.user.type === 'admin'){  //If user is not logged in redirect to login page
+        res.render('List_cameras', { title: 'List All Cameras' });
     }else{
         req.flash('error-msg','You must login first');
         res.redirect('/Login')
@@ -58,7 +76,7 @@ router.get('/Login', (req, res) => {
             
 
 router.get('/Person_P', (req, res) => {
-    if(req.session.loggedin == true){  //If user is not logged in redirect to login page
+    if(req.session.loggedin == true && req.session.user.type === 'admin'){  //If user is not logged in redirect to login page
         res.render('Person_P', { title: 'Person Profile' });
     }else{
         req.flash('error-msg','You must login first');
@@ -85,7 +103,15 @@ router.get('/User_H', (req, res) => {
         res.redirect('/Login')
     }
 });
-            
+
+router.get('/View_alerts', (req, res) => {
+    if(req.session.loggedin == true){  //If user is not logged in redirect to login page
+        res.render('View_alerts', { title: 'View Live Feed' });
+    }else{
+        req.flash('error-msg','You must login first');
+        res.redirect('/Login')
+    }
+});
 
 router.get('/View_live', (req, res) => {
     if(req.session.loggedin == true){  //If user is not logged in redirect to login page

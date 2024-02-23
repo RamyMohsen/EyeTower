@@ -36,6 +36,16 @@ class EyeTower {
         const query = 'SELECT * FROM account WHERE email = ? AND password = ?';
         return this.db.query(query, [email, password]);
     }
+
+    findUser(email) {
+        const query = 'SELECT * FROM account WHERE email = ?';
+        return this.db.query(query, [email]);
+    }
+
+    findPerson(name) {
+        const query = 'SELECT * FROM person WHERE name = ?';
+        return this.db.query(query, [name]);
+    }
     
     modifyPerson(personId, updates) {
         const query = 'UPDATE Person SET ? WHERE person_id = ?';
