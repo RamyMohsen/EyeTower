@@ -42,11 +42,9 @@ CREATE TABLE IF NOT EXISTS Alert (
 INSERT INTO account (email, pass, type, name) VALUES
 ('admin1@example.com', 'password1', 'admin', 'admin1'),
 ('admin2@example.com', 'password2', 'admin', 'admin2'),
-('admin3@example.com', 'password3', 'admin', 'admin3'),
 ('user1@example.com', 'password1', 'user', 'user1'),
 ('user2@example.com', 'password2', 'user', 'user2'),
-('user3@example.com', 'password3', 'user', 'user3'),
-('user4@example.com', 'password4', 'user', 'user4');
+('user3@example.com', 'password3', 'user', 'user3');
 
 
 -- Insert data into the "Cameras" table

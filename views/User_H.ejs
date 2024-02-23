@@ -4,46 +4,32 @@
 
 <body>
     <%- include("./partials/nav.ejs") %>
-    <div class="container">
-        <h1>Login</h1>
-        <form id="login-form" action="login.php" method="post">
-            <div class="form-group">
-                <label for="email">Email:</label>
-                <input type="email" id="email" name="email" class="email" required>
-            </div>
-            <div class="form-group">
-                <label for="password">Password:</label>
-                <input type="password" id="password" name="password" class="password" required>
-            </div>
-            <button type="submit" id="Login-btn">Login</button>
-        </form>
-    </div>
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js" type="text/javascript"></script>
-    <script>
-        function login() {
-            var email = document.getElementById("email").value;
-            var password = document.getElementById("password").value;
-            var data = {
-                email: email,
-                password: password
-            };
-
-            console.log(data);
-
-            $.ajax({
-                type: 'POST',
-                url: 'login.js',
-                data: data,
-                success: function (response) {
-                    console.log("success");
-                    console.log(response);
-                },
-                error: function (error) {
-                    console.log("error");
-                    console.log(error);
-                },
-            });
-        }
-    </script>
+    <h1>Welcome <%= user.name %></h1>
+    <body>
+        <div class="container">
+          <h2> What do you want to do today</h2>
+          <% if (user.type === 'user') { %>
+          <!-- User Section -->
+          <div class="user-section">
+            <a href="#" class="button">View Live Feed</a>
+            <a href="#" class="button">Find Person</a>
+            <a href="#" class="button">Playback Recording</a>
+          </div>
+          <% } else { %>
+          <!-- Admin Section -->
+          <div class="admin-section">
+            <a href="#" class="button">Add User</a>
+            <a href="#" class="button">Modify User Profile</a>
+            <a href="#" class="button">Add Person</a>
+            <a href="#" class="button">Modify Person Profile</a>
+            <a href="#" class="button">List All Users</a>
+            <a href="#" class="button">List All Persons</a>
+            <a href="#" class="button">View System Alerts</a>
+            <a href="#" class="button">Add Camera</a>
+            <a href="#" class="button">Remove Camera</a>
+          </div>
+          <% } %>
+        </div>
+      </body>   
 </body>
 </html>
