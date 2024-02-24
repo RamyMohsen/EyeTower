@@ -4,46 +4,38 @@
 
 <body>
     <%- include("./partials/nav.ejs") %>
-    <div class="container">
-        <h1>Login</h1>
-        <form id="login-form" action="login.php" method="post">
-            <div class="form-group">
-                <label for="email">Email:</label>
-                <input type="email" id="email" name="email" class="email" required>
-            </div>
-            <div class="form-group">
-                <label for="password">Password:</label>
-                <input type="password" id="password" name="password" class="password" required>
-            </div>
-            <button type="submit" id="Login-btn">Login</button>
-        </form>
+    <div class="container-list">
+        <h1>Listing All Users</h1>
+        <% if (users.length > 0) { %>
+            <% users.forEach(user => { %>
+                <div class="card">
+                    <a class="card-profile-btn" href="/User_P/<%= user.email %>" id="edit">
+                        <div class="card-name"><%= user.name %></div>
+                        <div class="card-details"><b>Email:</b> <%= user.email %></div>
+                        <div class="card-details"><b>Type:</b> <%= user.type %></div>
+                        <div class="action-buttons">
+                            <a class="delete fas fa-trash-alt" data-doc="<%= user.account_id %>" id="delete"></a>
+                        </div>
+                    </a>
+                </div>
+            <% }) %>
+        <% } else { %>
+            <p>There are no users to display...</p>
+        <% } %>
     </div>
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js" type="text/javascript"></script>
     <script>
-        function login() {
-            var email = document.getElementById("email").value;
-            var password = document.getElementById("password").value;
-            var data = {
-                email: email,
-                password: password
-            };
-
-            console.log(data);
-
-            $.ajax({
-                type: 'POST',
-                url: 'login.js',
-                data: data,
-                success: function (response) {
-                    console.log("success");
-                    console.log(response);
-                },
-                error: function (error) {
-                    console.log("error");
-                    console.log(error);
-                },
-            });
+        const trashcans = document.getElementsByClassName('delete')
+        for( const trashcan of trashcans){
+            trashcan.addEventListener('click', (e) => {
+                const endpoint = `/User_P/${trashcan.dataset.doc}`;
+                fetch(endpoint, {
+                  method: 'DELETE',
+                }).then(response => response.json())
+                .then(data => window.location.href = data.redirect)
+                .catch(err => console.log(err));
+              });
         }
-    </script>
+        
+      </script>
 </body>
 </html>

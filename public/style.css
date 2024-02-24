@@ -61,7 +61,7 @@ button:hover {
 }
 
 
-p{
+.msg{
     text-align: center;
     font-size: 16px;
 }
@@ -130,4 +130,117 @@ p{
     height:  80px;
     background-color: white;
     margin-bottom: 5px;
+}
+
+.container-list { 
+    width: 40%;
+    margin: 50px auto;
+    padding: 20px;
+    border: none; 
+    border-radius: 5px; 
+    background-color: #412872; 
+    color: white;
+    text-align: center;
+}
+
+.card {
+    width: 50%;
+    padding: 2%;
+    margin: 2% auto;
+    background-color: #5d3799;
+    border-radius: 5px;
+}
+.card-profile-btn{
+    border: none;
+    cursor: pointer;
+    text-decoration: none;
+}
+.card-name {
+    color: #00eeff;
+    font-size: larger;
+    font-weight: bold;
+    margin-bottom: 5px;
+    text-align: left;
+    font-size: 22px;
+}
+
+.card-details {
+    color: rgb(223, 160, 255);
+    text-align: left;
+    font-size: 17px;
+}
+
+.action-buttons {
+    text-align: right;
+    margin-top: 2%;
+}
+
+.delete { 
+    color: #121212;
+    border: none;
+    cursor: pointer;
+    text-decoration: none;
+    font-weight: bold;
+    margin-right: 3%;
+    font-size: 20px;
+}
+
+.photo {
+    width: 80px;
+    height: auto;
+    margin-right: 2%;
+    margin-left: 10%;
+    margin-bottom: 5px;
+    float: right;
+}
+
+.container-profile { 
+    width: 35%;
+    margin: 50px auto;
+    padding: 20px;
+    border: none; 
+    border-radius: 5px; 
+    background-color: #5d3799; 
+    color: white;
+    text-align: left;
+}
+
+#new-photo{
+    display: none;
+}
+
+.profile-photo {
+    width: 120px;
+    height: auto;
+    margin-right: 2%;
+    margin-left: 10%;
+    margin-bottom: 5px;
+    float: right;
+}
+
+
+.profile-name h3 {
+    color: #00eeff;
+    font-weight: bold;
+    font-size: 23px;
+}
+
+.profile-details h3 {
+    color: rgb(223, 160, 255);
+    font-weight: bold;
+    font-size: 20px;
+}
+
+.container-profile p {
+    font-size: 17px;
+}
+
+.edit { 
+    color: #333;
+    border: none;
+    cursor: pointer;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 22px;
+    margin-right: 3%;
 }

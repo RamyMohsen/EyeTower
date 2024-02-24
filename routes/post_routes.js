@@ -3,10 +3,9 @@ const router = express.Router();
 const multer = require('multer');
 const eyetower = require('../Classes/EyeTower');
 
-
 const fileStorage = multer.diskStorage({
     destination: (req, file, cb) => {
-      cb(null, 'photos/');
+      cb(null, 'public/photos/');
     },
     filename: (req, file, cb) => {
       cb(null, req.body.name + file.originalname.substring(file.originalname.lastIndexOf('.')).toLowerCase());
@@ -38,25 +37,25 @@ router.post('/add_user', async (req, res) => {
             return;
         }
     }).catch((error)=>{
+        console.log(error);
         req.flash('error-msg','Error Adding User');
         res.redirect('/Add_user');
     });
     if (flag){
-        eyetower.addUser(req.body).then((results, error) => {
-            if (error) {
-                req.flash('error-msg','Error Adding User');
-                res.redirect('/Add_user');
-            }else{
-                req.flash('success-msg','New User Added Successfully!');
-                res.redirect('/Add_user');
-            }
+        eyetower.addUser(req.body).then((results) => {
+            req.flash('success-msg','New User Added Successfully!');
+            res.redirect('/Add_user');
+        }).catch((error)=>{
+            console.log(error);
+            req.flash('error-msg','Error Adding User');
+            res.redirect('/Add_user');
         });
     }
 });
 
 router.post('/add_person', upload.single('photo'), async (req, res) => {
     var person = req.body;
-    person['photoUrl']=req.file.path;
+    person['photoUrl']=req.file.path.substring(7);
     var flag = true;
     await eyetower.findPerson(req.body.name).then((results)=>{
         if(results.length > 0){
@@ -67,20 +66,21 @@ router.post('/add_person', upload.single('photo'), async (req, res) => {
             return;
         }
     }).catch((error)=>{
+        console.log(error);
         req.flash('error-msg','Error Adding Person');
         res.redirect('/Add_person');
     });
     if (flag){
-        eyetower.addPerson(person).then((results, error) => {
-            if (error) {
-                req.flash('error-msg','Error Adding Person');
-                res.redirect('/Add_person');
-            }else{
-                req.flash('success-msg','New Person Added Successfully!');
-                res.redirect('/Add_person');
-            }
+        eyetower.addPerson(person).then((results) => {
+            req.flash('success-msg','New Person Added Successfully!');
+            res.redirect('/Add_person');
+        }).catch((error)=>{
+            console.log(error);
+            req.flash('error-msg','Error Adding User');
+            res.redirect('/Add_user');
         });
     }
 });
+  
 
 module.exports = router;

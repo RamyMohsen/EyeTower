@@ -16,19 +16,25 @@ class EyeTower {
         const values = [user.email, user.password, user.type, user.name];
         return this.db.query(query, values);
     }
-    
-    findPersonById(personId) {
-        const query = 'SELECT * FROM Person WHERE person_id = ?';
-        return this.db.query(query, [personId]);
+
+    addCamera(camera) {
+        const query = 'INSERT INTO Cameras (location, location_severity) VALUES (?, ?)';
+        const values = [camera.location, camera.severity];
+        return this.db.query(query, values);
     }
     
     listAllPersons() {
-        const query = 'SELECT * FROM Person';
+        const query = 'SELECT * FROM Person ORDER BY severity DESC';
         return this.db.query(query);
     }
     
     listAllUsers() {
-        const query = 'SELECT * FROM account WHERE type = "user"';
+        const query = 'SELECT * FROM account ORDER BY type DESC';
+        return this.db.query(query);
+    }
+
+    listAllCameras() {
+        const query = 'SELECT * FROM Cameras ORDER BY location_severity ASC';
         return this.db.query(query);
     }
     
@@ -57,12 +63,6 @@ class EyeTower {
         return this.db.query(query, [updates, userId]);
     }
     
-    addCamera(camera) {
-        const query = 'INSERT INTO Cameras (location, location_severity) VALUES (?, ?)';
-        const values = [camera.location, camera.severity];
-        return this.db.query(query, values);
-    }
-    
     removeCamera(cameraId) {
         const query = 'DELETE FROM Cameras WHERE cam_id = ?';
         return this.db.query(query, [cameraId]);
@@ -76,6 +76,11 @@ class EyeTower {
     removePerson(personId) {
         const query = 'DELETE FROM Person WHERE person_id = ?';
         return this.db.query(query, [personId]);
+    }
+
+    viewAlerts(){
+        const query = 'SELECT FROM Alert ORDER BY timestamp DESC'
+        return this.db.query(query);
     }
 }
 

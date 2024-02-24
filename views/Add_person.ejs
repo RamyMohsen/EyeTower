@@ -34,10 +34,10 @@
         <button type="submit" class="button">Add Person</button>
         </form>
         <% if(typeof error !== 'undefined') { %>
-            <p style="color:red"><%= error %></p>
+            <p class="msg" style="color:red"><%= error %></p>
         <% } %>
         <% if(typeof success !== 'undefined') { %>
-            <p style="color:rgb(0, 255, 0)"><%= success %></p>
+            <p class="msg" style="color:rgb(0, 255, 0)"><%= success %></p>
         <% } %>
     </div>
 </body>
