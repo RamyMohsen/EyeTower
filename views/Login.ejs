@@ -2,26 +2,29 @@
 
 <%- include("./partials/head.ejs") %>
 
-<body>
-    <nav class="nav">
-        <img src="logo.jpg" class="logo-nav">
-        <h1 class="project-name">EyeTower</h1>
-    </nav>
-    <div class="container-form">
-        <h1>Login</h1>
-        <form id="login-form" action="/auth/login" method="POST">
-            <div class="form-group">    
-                <label for="email">Email:</label>
-                <input type="email" id="email" name="email" class="email" required>
-            </div>
-            <div class="form-group">
-                <label for="password">Password:</label>
-                <input type="password" id="password" name="password" class="password" required>
-            </div>
-            <button type="submit" id="Login-btn">Login</button>
-        </form>
-        <% if(typeof msg !== 'undefined') { %>
-            <p class='msg' style="color:red"><%= msg %></p>
-        <% } %>
-</body>
+    <body>
+        <nav class="nav">
+            <img src="logo.jpg" class="logo-nav">
+            <h1 class="project-name">EyeTower</h1>
+        </nav>
+        <div class="container-form">
+            <h1>Login</h1>
+            <form id="login-form" action="/auth/login" method="POST">
+                <div class="form-group">
+                    <label for="email">Email:</label>
+                    <input type="email" id="email" name="email" class="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">Password:</label>
+                    <input type="password" id="password" name="password" class="password" required>
+                </div>
+                <button type="submit" id="Login-btn">Login</button>
+            </form>
+            <% if(typeof msg !=='undefined' ) { %>
+                <p class='msg' style="color:red">
+                    <%= msg %>
+                </p>
+                <% } %>
+    </body>
+
 </html>

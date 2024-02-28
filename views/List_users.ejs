@@ -2,40 +2,48 @@
 
 <%- include("./partials/head.ejs") %>
 
-<body>
-    <%- include("./partials/nav.ejs") %>
-    <div class="container-list">
-        <h1>Listing All Users</h1>
-        <% if (users.length > 0) { %>
-            <% users.forEach(user => { %>
-                <div class="card">
-                    <a class="card-profile-btn" href="/User_P/<%= user.email %>" id="edit">
-                        <div class="card-name"><%= user.name %></div>
-                        <div class="card-details"><b>Email:</b> <%= user.email %></div>
-                        <div class="card-details"><b>Type:</b> <%= user.type %></div>
-                        <div class="action-buttons">
-                            <a class="delete fas fa-trash-alt" data-doc="<%= user.account_id %>" id="delete"></a>
+    <body>
+        <%- include("./partials/nav.ejs") %>
+            <div class="container-list">
+                <h1>Listing All Users</h1>
+                <% if (users.length> 0) { %>
+                    <% users.forEach(user=> { %>
+                        <div class="card">
+                            <a class="card-profile-btn" href="/User_P/<%= user.email %>" id="edit">
+                                <div class="card-name">
+                                    <%= user.name %>
+                                </div>
+                                <div class="card-details"><b>Email:</b>
+                                    <%= user.email %>
+                                </div>
+                                <div class="card-details"><b>Type:</b>
+                                    <%= user.type %>
+                                </div>
+                                <div class="action-buttons">
+                                    <a class="delete fas fa-trash-alt" data-doc="<%= user.account_id %>"
+                                        id="delete"></a>
+                                </div>
+                            </a>
                         </div>
-                    </a>
-                </div>
-            <% }) %>
-        <% } else { %>
-            <p>There are no users to display...</p>
-        <% } %>
-    </div>
-    <script>
-        const trashcans = document.getElementsByClassName('delete')
-        for( const trashcan of trashcans){
-            trashcan.addEventListener('click', (e) => {
-                const endpoint = `/User_P/${trashcan.dataset.doc}`;
-                fetch(endpoint, {
-                  method: 'DELETE',
-                }).then(response => response.json())
-                .then(data => window.location.href = data.redirect)
-                .catch(err => console.log(err));
-              });
-        }
-        
-      </script>
-</body>
+                        <% }) %>
+                            <% } else { %>
+                                <p>There are no users to display...</p>
+                                <% } %>
+            </div>
+            <script>
+                const trashcans = document.getElementsByClassName('delete')
+                for (const trashcan of trashcans) {
+                    trashcan.addEventListener('click', (e) => {
+                        const endpoint = `/User_P/${trashcan.dataset.doc}`;
+                        fetch(endpoint, {
+                            method: 'DELETE',
+                        }).then(response => response.json())
+                            .then(data => window.location.href = data.redirect)
+                            .catch(err => console.log(err));
+                    });
+                }
+
+            </script>
+    </body>
+
 </html>

@@ -2,42 +2,52 @@
 
 <%- include("./partials/head.ejs") %>
 
-<body>
-    <%- include("./partials/nav.ejs") %>
-    <div class="container-list">
-        <h1>Listing All Persons</h1>
-        <% if (persons.length > 0) { %>
-            <% persons.forEach(person => { %>
-                <div class="card">
-                    <a class="card-profile-btn" href="/Person_P/<%= person.name %>" id="edit">
-                        <img src="<%= person.photo_url %>" class="photo" id="photo">
-                        <div class="card-name"><%= person.name %></div>
-                        <div class="card-details"><b>Gender:</b> <%= person.gender %></div>
-                        <div class="card-details"><b>Age:</b> <%= person.age %></div>
-                        <div class="card-details"><b>Severity:</b> <%= person.severity %></div>
-                        <div class="action-buttons">
-                            <a class="delete fas fa-trash-alt" data-doc="<%= person.person_id %>" id="delete"></a>
+    <body>
+        <%- include("./partials/nav.ejs") %>
+            <div class="container-list">
+                <h1>Listing All Persons</h1>
+                <% if (persons.length> 0) { %>
+                    <% persons.forEach(person=> { %>
+                        <div class="card">
+                            <a class="card-profile-btn" href="/Person_P/<%= person.name %>" id="edit">
+                                <img src="<%= person.photo_url %>" class="photo" id="photo">
+                                <div class="card-name">
+                                    <%= person.name %>
+                                </div>
+                                <div class="card-details"><b>Gender:</b>
+                                    <%= person.gender %>
+                                </div>
+                                <div class="card-details"><b>Age:</b>
+                                    <%= person.age %>
+                                </div>
+                                <div class="card-details"><b>Severity:</b>
+                                    <%= person.severity %>
+                                </div>
+                                <div class="action-buttons">
+                                    <a class="delete fas fa-trash-alt" data-doc="<%= person.person_id %>"
+                                        id="delete"></a>
+                                </div>
+                            </a>
                         </div>
-                    </a>
-                </div>
-            <% }) %>
-        <% } else { %>
-            <p>There are no persons to display...</p>
-        <% } %>
-    </div>
-    <script>
-        const trashcans = document.getElementsByClassName('delete')
-    
-        for( const trashcan of trashcans){
-            trashcan.addEventListener('click', (e) => {
-            const endpoint = `/Person_P/${trashcan.dataset.doc}?photo_url=${trashcan.parentNode.parentNode.children[0].children[0].getAttribute('src')}`;
-            fetch(endpoint, {
-                method: 'DELETE',
-            }).then(response => response.json())
-            .then(data => window.location.href = data.redirect)
-            .catch(err => console.log(err));
-            });
-        }
-      </script>
-</body>
+                        <% }) %>
+                            <% } else { %>
+                                <p>There are no persons to display...</p>
+                                <% } %>
+            </div>
+            <script>
+                const trashcans = document.getElementsByClassName('delete')
+
+                for (const trashcan of trashcans) {
+                    trashcan.addEventListener('click', (e) => {
+                        const endpoint = `/Person_P/${trashcan.dataset.doc}?photo_url=${trashcan.parentNode.parentNode.children[0].children[0].getAttribute('src')}`;
+                        fetch(endpoint, {
+                            method: 'DELETE',
+                        }).then(response => response.json())
+                            .then(data => window.location.href = data.redirect)
+                            .catch(err => console.log(err));
+                    });
+                }
+            </script>
+    </body>
+
 </html>

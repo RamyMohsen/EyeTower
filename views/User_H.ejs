@@ -2,36 +2,63 @@
 
 <%- include("./partials/head.ejs") %>
 
-<body>
-    <%- include("./partials/nav.ejs") %>
-    <h1>Welcome <%= user.name %></h1>
-    <body>
-        <div class="container">
-          <h2> What do you want to do today</h2>
-          <% if (user.type === 'user') { %>
-          <!-- User Section -->
-          <div class="user-section">
-            <a href="/View_live" class="home-btn"><img src="live_stream.png" class="home-img"><br> View Live Feed</a>
-            <a href="/Find" class="home-btn"><img src="find_person.png" class="home-img"><br> Find Person</a>
-            <a href="/View_recorded" class="home-btn"><img src="play_recording.png" class="home-img"><br> Playback Recorded Videos</a>
-            <a href="/View_alerts" class="home-btn"><img src="view_alerts.png" class="home-img"><br> View System Alerts</a>
-          </div>
-          <% } else { %>
+  <body>
+    <nav class="nav">
+      <img src="../logo.jpg" class="logo-nav">
+      <h1 class="project-name">EyeTower</h1>
+      <div class='nav-btn-container'>
+        <a id="logout" class="nav-btn">Logout</a>
+      </div>
+    </nav>
+    <h1>Welcome <%= user.name %>
+    </h1>
+    <div class="container">
+      <h2> What do you want to do today</h2>
+      <% if (user.type==='user' ) { %>
+        <!-- User Section -->
+        <div class="user-section">
+          <a href="/View_live" class="home-btn"><img src="live_stream.png" class="home-img"><br> View Live Feed</a>
+          <a href="/Find" class="home-btn"><img src="find_person.png" class="home-img"><br> Find Person</a>
+          <a href="/View_recorded" class="home-btn"><img src="play_recording.png" class="home-img"><br> Playback
+            Recorded Videos</a>
+          <a href="/View_alerts" class="home-btn"><img src="view_alerts.png" class="home-img"><br> View System
+            Alerts</a>
+        </div>
+        <% } else { %>
           <!-- Admin Section -->
           <div class="admin-section">
             <a href="/View_live" class="home-btn"><img src="live_stream.png" class="home-img"><br> View Live Feed</a>
             <a href="/Find" class="home-btn"><img src="find_person.png" class="home-img"><br> Find Person</a>
-            <a href="/View_recorded" class="home-btn"><img src="play_recording.png" class="home-img"><br> Playback Recorded Videos</a>
+            <a href="/View_recorded" class="home-btn"><img src="play_recording.png" class="home-img"><br> Playback
+              Recorded Videos</a>
             <a href="/Add_user" class="home-btn"><img src="add_user.png" class="home-img"><br>Add User</a>
             <a href="/Add_person" class="home-btn"><img src="add_person.png" class="home-img"><br>Add Person</a>
             <a href="/Add_camera" class="home-btn"><img src="add_camera.png" class="home-img"><br>Add Camera</a>
             <a href="/List_users" class="home-btn"><img src="list_users.jfif" class="home-img"><br>List All Users</a>
-            <a href="/List_persons" class="home-btn"><img src="list_persons.png" class="home-img"><br>List All Persons</a>
-            <a href="/List_cameras" class="home-btn"><img src="list_cameras.jfif" class="home-img"><br>List All Cameras</a>
-            <a href="/View_alerts" class="home-btn"><img src="view_alerts.png" class="home-img"><br>View System Alerts</a>
+            <a href="/List_persons" class="home-btn"><img src="list_persons.png" class="home-img"><br>List All
+              Persons</a>
+            <a href="/List_cameras" class="home-btn"><img src="list_cameras.jfif" class="home-img"><br>List All
+              Cameras</a>
+            <a href="/View_alerts" class="home-btn"><img src="view_alerts.png" class="home-img"><br>View System
+              Alerts</a>
           </div>
           <% } %>
-        </div>
-      </body>   
-</body>
+    </div>
+
+    <script>
+      const logout = document.getElementById('logout');
+
+      logout.addEventListener('click', (e) => {
+        const endpoint = '/auth/logout';
+        fetch(endpoint, {
+          method: 'POST',
+        })
+          .then(response => response.json())
+          .then(data => window.location.href = data.redirect)
+          .catch(err => console.log(err));
+      });
+
+    </script>
+  </body>
+
 </html>

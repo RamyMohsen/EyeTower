@@ -2,71 +2,80 @@
 
 <%- include("./partials/head.ejs") %>
 
-<body>
-    <%- include("./partials/nav.ejs") %>
-    <div class="container-profile">
-        <div class="profile-name" id="name">
-            <h3>Name:</h3>
-            <p id="name" contenteditable="false"><%= user.name %></p>
-        </div>
-        <div class="profile-details" id="type">
-            <h3>Type:</h3>
-            <p id="type" contenteditable="false"><%= user.type %></p>
-        </div>
-        <div class="profile-details" id="email">
-            <h3>Email:</h3>
-            <p id="email" contenteditable="false"><%= user.email %></p>
-        </div>
-        <div class="profile-details" id="password">
-            <h3>Password:</h3>
-            <p id="password" contenteditable="false"><%= user.password %></p>
-        </div>
-        <div class="action-buttons">
-            <a class="edit fas fa-edit" data-doc="<%= user.email %>" id="edit"></a>
-        </div>
-    </div>
-    <script>
-        const edit = document.getElementById('edit')
-        edit.addEventListener('click', function () {
-            event.preventDefault()
-            var name = document.getElementById('name');
-            var gender = document.getElementById('gender');
-            var age = document.getElementById('age');
-            var photo = document.getElementById('new-photo');
-            var severity = document.getElementById('severity');
-            if (name.isContentEditable) {
-                name.contentEditable = 'false';
-                gender.contentEditable = 'false';
-                age.contentEditable = 'false';
-                photo.style.display = 'none';
-                severity.contentEditable = 'false';
-                // TODO: Save changes to server
-                var dataToSend = {
-                    'name': companyName.innerHTML,
-                    'gender': bio.innerHTML,
-                    'age': address.innerHTML,
-                    'severity': tel.innerHTML
-                };
+    <body>
+        <%- include("./partials/nav.ejs") %>
+            <div class="container-profile">
+                <div class="profile-name" id="name">
+                    <h3>Name:</h3>
+                    <p id="name" contenteditable="false">
+                        <%= user.name %>
+                    </p>
+                </div>
+                <div class="profile-details" id="type">
+                    <h3>Type:</h3>
+                    <p id="type" contenteditable="false">
+                        <%= user.type %>
+                    </p>
+                </div>
+                <div class="profile-details" id="email">
+                    <h3>Email:</h3>
+                    <p id="email" contenteditable="false">
+                        <%= user.email %>
+                    </p>
+                </div>
+                <div class="profile-details" id="password">
+                    <h3>Password:</h3>
+                    <p id="password" contenteditable="false">
+                        <%= user.password %>
+                    </p>
+                </div>
+                <div class="action-buttons">
+                    <a class="edit fas fa-edit" data-doc="<%= user.email %>" id="edit"></a>
+                </div>
+            </div>
+            <script>
+                const edit = document.getElementById('edit')
+                edit.addEventListener('click', function () {
+                    event.preventDefault()
+                    var name = document.getElementById('name');
+                    var gender = document.getElementById('gender');
+                    var age = document.getElementById('age');
+                    var photo = document.getElementById('new-photo');
+                    var severity = document.getElementById('severity');
+                    if (name.isContentEditable) {
+                        name.contentEditable = 'false';
+                        gender.contentEditable = 'false';
+                        age.contentEditable = 'false';
+                        photo.style.display = 'none';
+                        severity.contentEditable = 'false';
+                        // TODO: Save changes to server
+                        var dataToSend = {
+                            'name': companyName.innerHTML,
+                            'gender': bio.innerHTML,
+                            'age': address.innerHTML,
+                            'severity': tel.innerHTML
+                        };
 
-                const endpoint = `/Person_P/${edit.dataset.doc}`;
-            
-                fetch(endpoint, {
-                    method: 'PUT',
-                    data: dataToSend
-                })
-                .then(response => response.json())
-                .then(data => window.location.href = data.redirect)
-                .catch(err => console.log(err));
-                this.textContent = 'Edit';
-            } else {
-                companyName.contentEditable = 'true';
-                bio.contentEditable = 'true';
-                address.contentEditable = 'true';
-                logo.style.display = 'block';
-                tel.contentEditable = 'true';
-                this.textContent = 'Save';
-            }
-        });
-    </script>
-</body>
+                        const endpoint = `/Person_P/${edit.dataset.doc}`;
+
+                        fetch(endpoint, {
+                            method: 'PUT',
+                            data: dataToSend
+                        })
+                            .then(response => response.json())
+                            .then(data => window.location.href = data.redirect)
+                            .catch(err => console.log(err));
+                        this.textContent = 'Edit';
+                    } else {
+                        companyName.contentEditable = 'true';
+                        bio.contentEditable = 'true';
+                        address.contentEditable = 'true';
+                        logo.style.display = 'block';
+                        tel.contentEditable = 'true';
+                        this.textContent = 'Save';
+                    }
+                });
+            </script>
+    </body>
+
 </html>

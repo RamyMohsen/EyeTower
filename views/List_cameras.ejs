@@ -2,39 +2,46 @@
 
 <%- include("./partials/head.ejs") %>
 
-<body>
-    <%- include("./partials/nav.ejs") %>
-    <div class="container-list">
-        <h1>Listing All Cameras</h1>
-        <% if (cameras.length > 0) { %>
-            <% cameras.forEach(camera => { %>
-                <div class="card">
-                    <div class="card-name"><%= camera.cam_id %></div>
-                    <div class="card-details"><b>Location:</b> <%= camera.location %></div>
-                    <div class="card-details"><b>Location Value:</b> <%= camera.location_severity %></div>
-                    <div class="action-buttons">
-                        <a class="delete fas fa-trash-alt" data-doc="<%= camera.cam_id %>" id="delete"></a>
-                    </div>
-                </div>
-            <% }) %>
-        <% } else { %>
-            <p>There are no cameras to display...</p>
-        <% } %>
-    </div>
-    <script>
-        const trashcans = document.getElementsByClassName('delete')
-        for( const trashcan of trashcans){
-            trashcan.addEventListener('click', (e) => {
-            const endpoint = `/Cam/${trashcan.dataset.doc}`;
-            fetch(endpoint, {
-                method: 'DELETE',
-            })
-            .then(response => response.json())
-            .then(data => window.location.href = data.redirect)
-            .catch(err => console.log(err));
-            });
-        }
-            
-      </script>
-</body>
+    <body>
+        <%- include("./partials/nav.ejs") %>
+            <div class="container-list">
+                <h1>Listing All Cameras</h1>
+                <% if (cameras.length> 0) { %>
+                    <% cameras.forEach(camera=> { %>
+                        <div class="card">
+                            <div class="card-name">
+                                <%= camera.cam_id %>
+                            </div>
+                            <div class="card-details"><b>Location:</b>
+                                <%= camera.location %>
+                            </div>
+                            <div class="card-details"><b>Location Value:</b>
+                                <%= camera.location_severity %>
+                            </div>
+                            <div class="action-buttons">
+                                <a class="delete fas fa-trash-alt" data-doc="<%= camera.cam_id %>" id="delete"></a>
+                            </div>
+                        </div>
+                        <% }) %>
+                            <% } else { %>
+                                <p>There are no cameras to display...</p>
+                                <% } %>
+            </div>
+            <script>
+                const trashcans = document.getElementsByClassName('delete')
+                for (const trashcan of trashcans) {
+                    trashcan.addEventListener('click', (e) => {
+                        const endpoint = `/Cam/${trashcan.dataset.doc}`;
+                        fetch(endpoint, {
+                            method: 'DELETE',
+                        })
+                            .then(response => response.json())
+                            .then(data => window.location.href = data.redirect)
+                            .catch(err => console.log(err));
+                    });
+                }
+
+            </script>
+    </body>
+
 </html>

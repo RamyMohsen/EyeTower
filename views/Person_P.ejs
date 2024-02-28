@@ -2,76 +2,85 @@
 
 <%- include("./partials/head.ejs") %>
 
-<body>
-    <%- include("./partials/nav.ejs") %>
-    <div class="container-profile">
-        <img src="..\<%= person.photo_url %>" class="profile-photo">
-        <div id="new-photo">
-            <label for="photo">Edit Logo:</label>
-            <input type="file" id="photo" name="photo" accept="image/*" required>
-        </div>
-        <div class="profile-name" id="name">
-            <h3>Name:</h3>
-            <p id="name" contenteditable="false"><%= person.name %></p>
-        </div>
-        <div class="profile-details" id="gender">
-            <h3>Gender:</h3>
-            <p id="gender" contenteditable="false"><%= person.gender %></p>
-        </div>
-        <div class="profile-details" id="age">
-            <h3>Age:</h3>
-            <p id="age" contenteditable="false"><%= person.age %></p>
-        </div>
-        <div class="profile-details" id="severity">
-            <h3>Severity:</h3>
-            <p id="severity" contenteditable="false"><%= person.severity %></p>
-        </div>
-        <div class="action-buttons">
-            <a class="edit fas fa-edit" data-doc="<%= person.name %>" id="edit"></a>
-        </div>
-    </div>
-    <script>
-        const edit = document.getElementById('edit')
-        edit.addEventListener('click', function () {
-            event.preventDefault()
-            var name = document.getElementById('name');
-            var gender = document.getElementById('gender');
-            var age = document.getElementById('age');
-            var photo = document.getElementById('new-photo');
-            var severity = document.getElementById('severity');
-            if (name.isContentEditable) {
-                name.contentEditable = 'false';
-                gender.contentEditable = 'false';
-                age.contentEditable = 'false';
-                photo.style.display = 'none';
-                severity.contentEditable = 'false';
-                // TODO: Save changes to server
-                var dataToSend = {
-                    'name': companyName.innerHTML,
-                    'gender': bio.innerHTML,
-                    'age': address.innerHTML,
-                    'severity': tel.innerHTML
-                };
+    <body>
+        <%- include("./partials/nav.ejs") %>
+            <div class="container-profile">
+                <img src="..\<%= person.photo_url %>" class="profile-photo">
+                <div id="new-photo">
+                    <label for="photo">Edit Logo:</label>
+                    <input type="file" id="photo" name="photo" accept="image/*" required>
+                </div>
+                <div class="profile-name" id="name">
+                    <h3>Name:</h3>
+                    <p id="name" contenteditable="false">
+                        <%= person.name %>
+                    </p>
+                </div>
+                <div class="profile-details" id="gender">
+                    <h3>Gender:</h3>
+                    <p id="gender" contenteditable="false">
+                        <%= person.gender %>
+                    </p>
+                </div>
+                <div class="profile-details" id="age">
+                    <h3>Age:</h3>
+                    <p id="age" contenteditable="false">
+                        <%= person.age %>
+                    </p>
+                </div>
+                <div class="profile-details" id="severity">
+                    <h3>Severity:</h3>
+                    <p id="severity" contenteditable="false">
+                        <%= person.severity %>
+                    </p>
+                </div>
+                <div class="action-buttons">
+                    <a class="edit fas fa-edit" data-doc="<%= person.name %>" id="edit"></a>
+                </div>
+            </div>
+            <script>
+                const edit = document.getElementById('edit')
+                edit.addEventListener('click', function () {
+                    event.preventDefault()
+                    var name = document.getElementById('name');
+                    var gender = document.getElementById('gender');
+                    var age = document.getElementById('age');
+                    var photo = document.getElementById('new-photo');
+                    var severity = document.getElementById('severity');
+                    if (name.isContentEditable) {
+                        name.contentEditable = 'false';
+                        gender.contentEditable = 'false';
+                        age.contentEditable = 'false';
+                        photo.style.display = 'none';
+                        severity.contentEditable = 'false';
+                        // TODO: Save changes to server
+                        var dataToSend = {
+                            'name': companyName.innerHTML,
+                            'gender': bio.innerHTML,
+                            'age': address.innerHTML,
+                            'severity': tel.innerHTML
+                        };
 
-                const endpoint = `/Person_P/${edit.dataset.doc}`;
-            
-                fetch(endpoint, {
-                    method: 'PUT',
-                    data: dataToSend
-                })
-                .then(response => response.json())
-                .then(data => window.location.href = data.redirect)
-                .catch(err => console.log(err));
-                this.textContent = 'Edit';
-            } else {
-                companyName.contentEditable = 'true';
-                bio.contentEditable = 'true';
-                address.contentEditable = 'true';
-                logo.style.display = 'block';
-                tel.contentEditable = 'true';
-                this.textContent = 'Save';
-            }
-        });
-    </script>
-</body>
+                        const endpoint = `/Person_P/${edit.dataset.doc}`;
+
+                        fetch(endpoint, {
+                            method: 'PUT',
+                            data: dataToSend
+                        })
+                            .then(response => response.json())
+                            .then(data => window.location.href = data.redirect)
+                            .catch(err => console.log(err));
+                        this.textContent = 'Edit';
+                    } else {
+                        companyName.contentEditable = 'true';
+                        bio.contentEditable = 'true';
+                        address.contentEditable = 'true';
+                        logo.style.display = 'block';
+                        tel.contentEditable = 'true';
+                        this.textContent = 'Save';
+                    }
+                });
+            </script>
+    </body>
+
 </html>
