@@ -98,7 +98,7 @@ router.get('/User_P/:id', (req, res) => {
     if (req.session.loggedin == true && req.session.user.type === 'admin') {  //If user is not logged in redirect to login page
         let email = req.params.id;
         eyetower.findUser(email).then((results) => {
-            res.render('User_P', { title: 'User Profile', user: results[0] });
+            res.render('User_P', { title: 'User Profile', user: results[0], error: req.flash('error-msg'), success: req.flash('success-msg') });
         })
     } else {
         req.flash('error-msg', 'You must login as admin first');

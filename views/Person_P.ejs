@@ -5,38 +5,48 @@
     <body>
         <%- include("./partials/nav.ejs") %>
             <div class="container-profile">
-                <img src="..\<%= person.photo_url %>" class="profile-photo">
-                <div id="new-photo">
-                    <label for="photo">Edit Logo:</label>
-                    <input type="file" id="photo" name="photo" accept="image/*" required>
+                <img src="..\<%= person.photo_url %>" class="profile-photo" id="photo">
+                <div>
+                    <label for="photo">Edit Photo:</label>
+                    <input type="file" id="new-photo" name="photo" accept="image/*" required>
                 </div>
-                <div class="profile-name" id="name">
+                <div class="profile-name">
                     <h3>Name:</h3>
                     <p id="name" contenteditable="false">
                         <%= person.name %>
                     </p>
                 </div>
-                <div class="profile-details" id="gender">
+                <div class="profile-details">
                     <h3>Gender:</h3>
                     <p id="gender" contenteditable="false">
                         <%= person.gender %>
                     </p>
                 </div>
-                <div class="profile-details" id="age">
+                <div class="profile-details">
                     <h3>Age:</h3>
                     <p id="age" contenteditable="false">
                         <%= person.age %>
                     </p>
                 </div>
-                <div class="profile-details" id="severity">
+                <div class="profile-details">
                     <h3>Severity:</h3>
                     <p id="severity" contenteditable="false">
                         <%= person.severity %>
                     </p>
                 </div>
                 <div class="action-buttons">
-                    <a class="edit fas fa-edit" data-doc="<%= person.name %>" id="edit"></a>
+                    <a class="edit fas fa-edit" data-doc="<%= person.person_id %>" id="edit"></a>
                 </div>
+                <% if(typeof error !=='undefined' ) { %>
+                    <p class="msg" style="color:red">
+                        <%= error %>
+                    </p>
+                    <% } %>
+                        <% if(typeof success !=='undefined' ) { %>
+                            <p class="msg" style="color:rgb(0, 255, 0)">
+                                <%= success %>
+                            </p>
+                            <% } %>
             </div>
             <script>
                 const edit = document.getElementById('edit')
@@ -45,39 +55,46 @@
                     var name = document.getElementById('name');
                     var gender = document.getElementById('gender');
                     var age = document.getElementById('age');
-                    var photo = document.getElementById('new-photo');
                     var severity = document.getElementById('severity');
+                    var new_photo = document.getElementById('new-photo');
+                    var photo = document.getElementById('photo');
+
                     if (name.isContentEditable) {
                         name.contentEditable = 'false';
                         gender.contentEditable = 'false';
                         age.contentEditable = 'false';
-                        photo.style.display = 'none';
                         severity.contentEditable = 'false';
-                        // TODO: Save changes to server
-                        var dataToSend = {
-                            'name': companyName.innerHTML,
-                            'gender': bio.innerHTML,
-                            'age': address.innerHTML,
-                            'severity': tel.innerHTML
-                        };
+                        new_photo.style.display = 'none';
+                        photo.style.display = 'block';
+                        var data = new FormData();
+                        data.append('photo', new_photo.files[0]);
+                        data.append('data', JSON.stringify({
+                            'name': name.innerText,
+                            'gender': gender.innerText,
+                            'age': age.innerText,
+                            'severity': severity.innerText
+                        }));
 
-                        const endpoint = `/Person_P/${edit.dataset.doc}`;
+                        const endpoint = `/update_person/${edit.dataset.doc}?name=${name.innerText}`;
 
                         fetch(endpoint, {
-                            method: 'PUT',
-                            data: dataToSend
+                            method: "PUT",
+                            body: data
                         })
                             .then(response => response.json())
                             .then(data => window.location.href = data.redirect)
                             .catch(err => console.log(err));
-                        this.textContent = 'Edit';
+                        edit.classList.add("fa-edit");
+                        edit.classList.remove("fa-save");
                     } else {
-                        companyName.contentEditable = 'true';
-                        bio.contentEditable = 'true';
-                        address.contentEditable = 'true';
-                        logo.style.display = 'block';
-                        tel.contentEditable = 'true';
-                        this.textContent = 'Save';
+                        name.contentEditable = 'true';
+                        gender.contentEditable = 'true';
+                        age.contentEditable = 'true';
+                        severity.contentEditable = 'true';
+                        new_photo.style.display = 'block';
+                        photo.style.display = 'none';
+                        edit.classList.remove("fa-edit");
+                        edit.classList.add("fa-save");
                     }
                 });
             </script>

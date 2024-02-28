@@ -3,6 +3,7 @@ const db = require('./Classes/Database')
 const get_routes = require('./routes/get_routes');
 const post_routes = require('./routes/post_routes');
 const delete_routes = require('./routes/delete_routes');
+const put_routes = require('./routes/put_routes');
 const authRoutes = require('./routes/auth');
 const session = require('express-session');
 const flash = require('connect-flash');
@@ -25,6 +26,7 @@ app.set('view engine', 'ejs');
 // middleware & static files
 app.use(express.static('public'));
 app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
 app.use(flash());
 
 // auth routes
@@ -34,6 +36,7 @@ app.use('/auth', authRoutes);
 app.use(get_routes);
 app.use(post_routes);
 app.use(delete_routes);
+app.use(put_routes);
 
 // redirects
 app.get('/', (req, res) => {

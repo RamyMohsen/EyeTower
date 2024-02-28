@@ -5,74 +5,76 @@
     <body>
         <%- include("./partials/nav.ejs") %>
             <div class="container-profile">
-                <div class="profile-name" id="name">
+                <div class="profile-name">
                     <h3>Name:</h3>
-                    <p id="name" contenteditable="false">
-                        <%= user.name %>
-                    </p>
+                    <p id="name" contenteditable="false"><%=user.name%></p>
                 </div>
-                <div class="profile-details" id="type">
+                <div class="profile-details">
                     <h3>Type:</h3>
-                    <p id="type" contenteditable="false">
-                        <%= user.type %>
-                    </p>
+                    <p id="type" contenteditable="false"><%=user.type%></p>
                 </div>
-                <div class="profile-details" id="email">
+                <div class="profile-details">
                     <h3>Email:</h3>
-                    <p id="email" contenteditable="false">
-                        <%= user.email %>
-                    </p>
+                    <p id="email" contenteditable="false"><%=user.email%></p>
                 </div>
-                <div class="profile-details" id="password">
+                <div class="profile-details">
                     <h3>Password:</h3>
-                    <p id="password" contenteditable="false">
-                        <%= user.password %>
-                    </p>
+                    <p id="password" contenteditable="false"><%=user.password%></p>
                 </div>
                 <div class="action-buttons">
-                    <a class="edit fas fa-edit" data-doc="<%= user.email %>" id="edit"></a>
+                    <a class="edit fas fa-edit" data-doc="<%= user.account_id %>" id="edit"></a>
                 </div>
+                <% if(typeof error !=='undefined' ) { %>
+                    <p class="msg" style="color:red">
+                        <%= error %>
+                    </p>
+                    <% } %>
+                        <% if(typeof success !=='undefined' ) { %>
+                            <p class="msg" style="color:rgb(0, 255, 0)">
+                                <%= success %>
+                            </p>
+                            <% } %>
             </div>
             <script>
                 const edit = document.getElementById('edit')
                 edit.addEventListener('click', function () {
                     event.preventDefault()
                     var name = document.getElementById('name');
-                    var gender = document.getElementById('gender');
-                    var age = document.getElementById('age');
-                    var photo = document.getElementById('new-photo');
-                    var severity = document.getElementById('severity');
+                    var type = document.getElementById('type');
+                    var email = document.getElementById('email');
+                    var password = document.getElementById('password');
                     if (name.isContentEditable) {
                         name.contentEditable = 'false';
-                        gender.contentEditable = 'false';
-                        age.contentEditable = 'false';
-                        photo.style.display = 'none';
-                        severity.contentEditable = 'false';
+                        type.contentEditable = 'false';
+                        email.contentEditable = 'false';
+                        password.contentEditable = 'false';
                         // TODO: Save changes to server
-                        var dataToSend = {
-                            'name': companyName.innerHTML,
-                            'gender': bio.innerHTML,
-                            'age': address.innerHTML,
-                            'severity': tel.innerHTML
+                        var data = {
+                            'name': name.innerHTML,
+                            'type': type.innerHTML,
+                            'email': email.innerHTML,
+                            'password': password.innerHTML
                         };
 
-                        const endpoint = `/Person_P/${edit.dataset.doc}`;
+                        const endpoint = `/update_user/${edit.dataset.doc}`;
 
                         fetch(endpoint, {
-                            method: 'PUT',
-                            data: dataToSend
+                            method: "PUT",
+                            headers: { "Content-Type": "application/json" },
+                            body: JSON.stringify(data)
                         })
                             .then(response => response.json())
                             .then(data => window.location.href = data.redirect)
                             .catch(err => console.log(err));
-                        this.textContent = 'Edit';
+                        edit.classList.add("fa-edit");
+                        edit.classList.remove("fa-save");
                     } else {
-                        companyName.contentEditable = 'true';
-                        bio.contentEditable = 'true';
-                        address.contentEditable = 'true';
-                        logo.style.display = 'block';
-                        tel.contentEditable = 'true';
-                        this.textContent = 'Save';
+                        name.contentEditable = 'true';
+                        type.contentEditable = 'true';
+                        email.contentEditable = 'true';
+                        password.contentEditable = 'true';
+                        edit.classList.remove("fa-edit");
+                        edit.classList.add("fa-save");
                     }
                 });
             </script>
