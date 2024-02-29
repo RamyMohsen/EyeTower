@@ -13,12 +13,12 @@ CREATE TABLE IF NOT EXISTS account (
     email VARCHAR(255) NOT NULL UNIQUE,
     password VARCHAR(255) NOT NULL , 
     type ENUM('admin', 'user') NOT NULL ,
-    name VARCHAR(50) NOT NULL UNIQUE
+    name VARCHAR(50) NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS Person (
     person_id INT AUTO_INCREMENT PRIMARY KEY,
-    name VARCHAR(50) NOT NULL ,
+    name VARCHAR(50) NOT NULL UNIQUE,
     gender ENUM('Male', 'Female') NOT NULL ,
     age INT NOT NULL,
     photo_url VARCHAR(255) Not NULL, 
@@ -33,7 +33,7 @@ CREATE TABLE IF NOT EXISTS Cameras (
 
 CREATE TABLE IF NOT EXISTS Alert (
     alert_id INT AUTO_INCREMENT PRIMARY KEY,
-    timestamp DATETIME NOT NULL ,
+    timestamp INT NOT NULL ,
     description VARCHAR(512) NOT NULL ,
     severity INT NOT NULL 
 );
@@ -47,9 +47,12 @@ INSERT INTO account (email, password, type, name) VALUES
 ('user3@example.com', 'password3', 'user', 'user3');
 
 
--- Insert data into the "Cameras" table
 INSERT INTO Cameras (location, location_severity) VALUES
 ('Building1', 1),
 ('Building2', 2),
 ('Building3', 3);
 
+INSERT INTO Alert (timestamp, description,  severity) VALUES
+(1708740225000, 'Alert1',1),
+(1641618400000, 'Alert2',5),
+(1709295767000, 'Alert3', 10);

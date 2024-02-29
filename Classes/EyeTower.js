@@ -79,7 +79,7 @@ class EyeTower {
     }
 
     viewAlerts(){
-        const query = 'SELECT FROM Alert ORDER BY timestamp DESC'
+        const query = 'SELECT * FROM Alert ORDER BY timestamp DESC'
         return this.db.query(query);
     }
 }

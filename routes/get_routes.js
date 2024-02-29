@@ -118,7 +118,10 @@ router.get('/User_H', (req, res) => {
 
 router.get('/View_alerts', (req, res) => {
     if (req.session.loggedin == true) {  //If user is not logged in redirect to login page
-        res.render('View_alerts', { title: 'View Live Feed' });
+        eyetower.viewAlerts().then((results) => {
+            res.render('View_alerts', { title: 'Alerts', alerts: results });
+        })
+        
     } else {
         req.flash('error-msg', 'You must login first');
         res.redirect('/Login')
