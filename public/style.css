@@ -279,3 +279,8 @@ button:hover {
     text-align: left;
     font-size: 17px;
 }
+
+#video-element {
+    display: none;
+    margin: 2% auto;
+}
