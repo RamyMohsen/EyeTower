@@ -17,24 +17,38 @@
       <% if (user.type==='user' ) { %>
         <!-- User Section -->
         <div class="user-section">
-          <a href="/View_live" class="home-btn"><img src="live_stream.png" class="home-img"><br> View Live Feed</a>
-          <a href="/Find" class="home-btn"><img src="find_person.png" class="home-img"><br> Find Person</a>
-          <a href="/View_recorded" class="home-btn"><img src="play_recording.png" class="home-img"><br> Playback Recorded Videos</a>
-          <a href="/View_alerts" class="home-btn"><img src="view_alerts.png" class="home-img"><br> View System Alerts</a>
+          <div>
+            <a href="/View_live" class="home-btn"><img src="live_stream.png" class="home-img"><br> View Live Feed</a>
+            <a href="/View_recorded" class="home-btn"><img src="play_recording.png" class="home-img"><br> Playback Recorded Videos</a>
+          </div>
+          <div>
+            <a href="/Find" class="home-btn"><img src="find_person.png" class="home-img"><br> Find Person</a>
+            <a href="/View_alerts" class="home-btn"><img src="view_alerts.png" class="home-img"><br> View System Alerts</a>
+          </div>
         </div>
         <% } else { %>
           <!-- Admin Section -->
           <div class="admin-section">
-            <a href="/View_live" class="home-btn"><img src="live_stream.png" class="home-img"><br> View Live Feed</a>
-            <a href="/Find" class="home-btn"><img src="find_person.png" class="home-img"><br> Find Person</a>
-            <a href="/View_recorded" class="home-btn"><img src="play_recording.png" class="home-img"><br> Playback Recorded Videos</a>
-            <a href="/Add_user" class="home-btn"><img src="add_user.png" class="home-img"><br>Add User</a>
-            <a href="/Add_person" class="home-btn"><img src="add_person.png" class="home-img"><br>Add Person</a>
-            <a href="/Add_camera" class="home-btn"><img src="add_camera.png" class="home-img"><br>Add Camera</a>
-            <a href="/List_users" class="home-btn"><img src="list_users.jfif" class="home-img"><br>List All Users</a>
-            <a href="/List_persons" class="home-btn"><img src="list_persons.png" class="home-img"><br>List All Persons</a>
-            <a href="/List_cameras" class="home-btn"><img src="list_cameras.jfif" class="home-img"><br>List All Cameras</a>
-            <a href="/View_alerts" class="home-btn"><img src="view_alerts.png" class="home-img"><br>View System Alerts</a>
+            <div>
+              <a href="/View_live" class="home-btn"><img src="live_stream.png" class="home-img"><br> View Live Feed</a>
+              <a href="/View_recorded" class="home-btn"><img src="play_recording.png" class="home-img"><br> Playback Recorded Videos</a>
+            </div>
+            <div>
+              <a href="/Find" class="home-btn"><img src="find_person.png" class="home-img"><br> Find Person</a>
+              <a href="/View_alerts" class="home-btn"><img src="view_alerts.png" class="home-img"><br> View System Alerts</a>
+            </div>
+            <div>
+              <a href="/Add_user" class="home-btn"><img src="add_user.png" class="home-img"><br> Add User</a>
+              <a href="/List_users" class="home-btn"><img src="list_users.jfif" class="home-img"><br> List All Users</a>
+            </div>
+            <div>
+              <a href="/Add_person" class="home-btn"><img src="add_person.png" class="home-img"><br> Add Person</a>
+              <a href="/List_persons" class="home-btn"><img src="list_persons.png" class="home-img"><br> List All Persons</a>
+            </div>
+            <div>
+              <a href="/Add_camera" class="home-btn"><img src="add_camera.png" class="home-img"><br> Add Camera</a>
+              <a href="/List_cameras" class="home-btn"><img src="list_cameras.jfif" class="home-img"><br> List All Cameras</a>
+            </div>
           </div>
           <% } %>
     </div>
