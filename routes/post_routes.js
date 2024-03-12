@@ -13,17 +13,33 @@ const fileStorage = multer.diskStorage({
 });
 const upload = multer({ storage: fileStorage });
 
-router.post('/add_camera', (req, res) => {
-    eyetower.addCamera(req.body).then((results, error) => {
-        if (error) {
-            req.flash('error-msg', 'Error Adding Camera');
+router.post('/add_camera', async (req, res) => {
+    var flag = true;
+    await eyetower.findCamera(req.body.name).then((results) => {
+        if (results.length > 0) {
+            // user exists
+            req.flash('error-msg', 'Cameras Already Exist');
             res.redirect('/Add_camera');
+            flag = false;
             return;
-        } else {
-            req.flash('success-msg', 'New Camera Added Successfully!');
-            res.redirect('/Add_camera');
         }
-    })
+    }).catch((error) => {
+        console.log(error);
+        req.flash('error-msg', 'Error Adding Camera');
+        res.redirect('/Add_camera');
+    });
+    if (flag) {
+        eyetower.addCamera(req.body).then((results, error) => {
+            if (error) {
+                req.flash('error-msg', 'Error Adding Camera');
+                res.redirect('/Add_camera');
+                return;
+            } else {
+                req.flash('success-msg', 'New Camera Added Successfully!');
+                res.redirect('/Add_camera');
+            }
+        })
+    }
 });
 
 router.post('/add_user', async (req, res) => {

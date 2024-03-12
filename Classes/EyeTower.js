@@ -18,8 +18,8 @@ class EyeTower {
     }
 
     addCamera(camera) {
-        const query = 'INSERT INTO Cameras (location, location_severity) VALUES (?, ?)';
-        const values = [camera.location, camera.severity];
+        const query = 'INSERT INTO Cameras (name, location, location_severity) VALUES (?, ?, ?)';
+        const values = [camera.name, camera.location, camera.severity];
         return this.db.query(query, values);
     }
     
@@ -41,6 +41,11 @@ class EyeTower {
     login(email, password) {
         const query = 'SELECT * FROM account WHERE email = ? AND password = ?';
         return this.db.query(query, [email, password]);
+    }
+
+    findCamera(name) {
+        const query = 'SELECT * FROM Cameras WHERE name = ?';
+        return this.db.query(query, [name]);
     }
 
     findUser(email) {

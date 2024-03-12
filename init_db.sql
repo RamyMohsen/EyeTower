@@ -27,6 +27,7 @@ CREATE TABLE IF NOT EXISTS Person (
 
 CREATE TABLE IF NOT EXISTS Cameras (
     cam_id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(100) NOT NULL UNIQUE,
     location VARCHAR(512) NOT NULL ,
     location_severity INT NOT NULL 
 );
@@ -46,11 +47,6 @@ INSERT INTO account (email, password, type, name) VALUES
 ('user2@example.com', 'password2', 'user', 'user2'),
 ('user3@example.com', 'password3', 'user', 'user3');
 
-
-INSERT INTO Cameras (location, location_severity) VALUES
-('Building1', 1),
-('Building2', 2),
-('Building3', 3);
 
 INSERT INTO Alert (timestamp, description,  severity) VALUES
 (1708740225000, 'Alert1',1),

@@ -8,6 +8,11 @@
                 <h1>Add Camera</h1>
                 <form action="/add_camera" method="POST">
                     <div class="form-group">
+                        <label for="name">Name:</label>
+                        <select id="camera-select" name="name" required>
+                        </select>
+                    </div>
+                    <div class="form-group">
                         <label for="location">Location:</label>
                         <input type="text" id="location" name="location" required>
                     </div>
@@ -28,6 +33,26 @@
                             </p>
                             <% } %>
             </div>
+            <script>
+                var cameraSelect = document.getElementById('camera-select');
+
+                navigator.mediaDevices.enumerateDevices()
+                    .then(function (devices) {
+                        var videoDevices = devices.filter(function (device) {
+                            return device.kind === 'videoinput';
+                        });
+
+                        videoDevices.forEach(function (device, index) {
+                            var option = document.createElement('option');
+                            option.value = device.label || 'Camera ' + (index + 1);
+                            option.text = device.label || 'Camera ' + (index + 1);
+                            cameraSelect.appendChild(option);
+                        });
+                    })
+                    .catch(function (error) {
+                        console.error('Error enumerating devices:', error);
+                    });
+            </script>
     </body>
 
 </html>
