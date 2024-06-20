@@ -3,89 +3,69 @@ const db = require('./Database')
 class EyeTower {
     constructor() {
         this.db = new db();
-        this.cameras = [];
     }
     addPerson(person) {
-        const query = 'INSERT INTO Person (name, gender, age, photo_url, severity) VALUES (?, ?, ?, ?, ?)';
-        const values = [person.name, person.gender, person.age, person.photoUrl, person.severity];
-        return this.db.query(query, values);
+        return this.db.addPerson(person);
     }
     
     addUser(user) {
-        const query = 'INSERT INTO account (email, password, type, name) VALUES (?, ?, ?, ?)';
-        const values = [user.email, user.password, user.type, user.name];
-        return this.db.query(query, values);
+        return this.db.addUser(user);
     }
 
     addCamera(camera) {
-        const query = 'INSERT INTO Cameras (name, location, location_severity) VALUES (?, ?, ?)';
-        const values = [camera.name, camera.location, camera.severity];
-        return this.db.query(query, values);
+        return this.db.addCamera(camera);
     }
     
     listAllPersons() {
-        const query = 'SELECT * FROM Person ORDER BY severity DESC';
-        return this.db.query(query);
+        return this.db.listAllPersons();
     }
     
     listAllUsers() {
-        const query = 'SELECT * FROM account ORDER BY type DESC';
-        return this.db.query(query);
+        return this.db.listAllUsers();
     }
 
     listAllCameras() {
-        const query = 'SELECT * FROM Cameras ORDER BY location_severity ASC';
-        return this.db.query(query);
+        return this.db.listAllCameras();
     }
     
     login(email, password) {
-        const query = 'SELECT * FROM account WHERE email = ? AND password = ?';
-        return this.db.query(query, [email, password]);
+        return this.db.login(email, password);
     }
 
     findCamera(name) {
-        const query = 'SELECT * FROM Cameras WHERE name = ?';
-        return this.db.query(query, [name]);
+        return this.db.findCamera(name);
     }
 
     findUser(email) {
-        const query = 'SELECT * FROM account WHERE email = ?';
-        return this.db.query(query, [email]);
+        return this.db.findUser(email);
     }
 
     findPerson(name) {
-        const query = 'SELECT * FROM person WHERE name = ?';
-        return this.db.query(query, [name]);
+        return this.db.findPerson(name);
     }
     
     modifyPerson(personId, updates) {
-        const query = 'UPDATE Person SET ? WHERE person_id = ?';
-        return this.db.query(query, [updates, personId]);
+        return this.db.modifyPerson(personId, updates);
     }
     
     modifyUser(userId, updates) {
-        const query = 'UPDATE account SET ? WHERE account_id = ?';
-        return this.db.query(query, [updates, userId]);
+        return this.db.modifyUser(userId, updates);
     }
     
     removeCamera(cameraId) {
-        const query = 'DELETE FROM Cameras WHERE cam_id = ?';
-        return this.db.query(query, [cameraId]);
+        return this.db.removeCamera(cameraId);
     }
     
     removeUser(userId) {
-        const query = 'DELETE FROM account WHERE account_id = ?';
-        return this.db.query(query, [userId]);
+        return this.db.removeUser(userId);
     }
     
     removePerson(personId) {
-        const query = 'DELETE FROM Person WHERE person_id = ?';
-        return this.db.query(query, [personId]);
+        return this.db.removePerson(personId);
     }
 
     viewAlerts(){
-        const query = 'SELECT * FROM Alert ORDER BY timestamp DESC'
-        return this.db.query(query);
+        return this.db.viewAlerts();
     }
 }
 

@@ -1,10 +1,10 @@
 const express = require('express');
-const db = require('./Classes/Database')
 const get_routes = require('./routes/get_routes');
 const post_routes = require('./routes/post_routes');
 const delete_routes = require('./routes/delete_routes');
 const put_routes = require('./routes/put_routes');
 const authRoutes = require('./routes/auth');
+const uploadRoutes = require('./routes/upload');
 const session = require('express-session');
 const flash = require('connect-flash');
 
@@ -18,8 +18,12 @@ app.use(
     })
   );
 // listen for requests
-app.listen(3000);
+const port = 3000;
+app.listen(port, () => {
+  console.log(`Server is running at http://localhost:${port}`);
+});
 
+console.log()
 // register view engine
 app.set('view engine', 'ejs');
 
@@ -31,6 +35,9 @@ app.use(flash());
 
 // auth routes
 app.use('/auth', authRoutes);
+
+// upload routes
+app.use('/upload', uploadRoutes);
 
 // routes
 app.use(get_routes);

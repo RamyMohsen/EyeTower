@@ -1,7 +1,8 @@
 const express = require('express');
 const router = express.Router();
 const eyetower = require('../Classes/EyeTower');
-const { result } = require('lodash');
+const path = require('path');
+const fs = require('fs');
 
 router.get('/Add_person', (req, res) => {
     if (req.session.loggedin == true && req.session.user.type === 'admin') {  //If user is not logged in redirect to login page
@@ -32,7 +33,6 @@ router.get('/Add_camera', (req, res) => {
 })
 
 router.get('/Find', (req, res) => {
-    console.log(req.session)
     if (req.session.loggedin == true) {  //If user is not logged in redirect to login page
         res.render('Find', { title: 'Find Person' });
     } else {
@@ -140,7 +140,15 @@ router.get('/View_live', (req, res) => {
 
 router.get('/View_recorded', (req, res) => {
     if (req.session) {  //If user is not logged in redirect to login page
-        res.render('View_recorded', { title: 'View Recorded Videos' });
+        const videosDirectory = path.join(__dirname, '../public/videos');
+        fs.readdir(videosDirectory, (err, files) => {
+            if (err) {
+                console.error('Error reading directory:', err);
+                res.status(500).send('Error reading directory');
+                return;
+            }
+            res.render('View_recorded', {title: 'View Recorded Videos',  videos: files });
+        });
     } else {
         req.flash('error-msg', 'You must login first');
         res.redirect('/Login')

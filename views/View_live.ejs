@@ -1,5 +1,4 @@
 <html>
-
 <%- include("./partials/head.ejs") %>
 
     <body>
@@ -9,12 +8,17 @@
                 <select id="camera-select">
                     <option value="none">None</option>
                 </select>
-                <video id="video-element" autoplay></video>
+                <video id="video-element" autoplay></video> 
+                <button id="record-button">Record</button>
             </div>
             <script>
                 var cameraSelect = document.getElementById('camera-select');
                 var videoElement = document.getElementById('video-element');
+                var recordButton = document.getElementById('record-button');
                 var currentStream;
+                var mediaRecorder;
+                var recordedChunks = [];
+                var startTime;
 
                 navigator.mediaDevices.enumerateDevices()
                     .then(function (devices) {
@@ -43,6 +47,7 @@
                         }
                         videoElement.srcObject = null;
                         videoElement.style.display = 'none';
+                        recordButton.style.display = 'none';
                     } else {
                         navigator.mediaDevices.getUserMedia({
                             video: { deviceId: { exact: selectedDeviceId } }
@@ -56,6 +61,7 @@
                                 currentStream = stream;
                                 videoElement.srcObject = stream;
                                 videoElement.style.display = 'block';
+                                recordButton.style.display = '';
                             })
                             .catch(function (error) {
                                 console.error('Error accessing the camera:', error);
@@ -63,10 +69,54 @@
                     }
                 }
 
-                // Add event listener to the select element
                 cameraSelect.addEventListener('change', switchCamera);
 
                 switchCamera();
+
+                function startRecording() {
+                    recordedChunks = [];
+                    var options = { mimeType: 'video/webm; codecs=vp9' };
+                    mediaRecorder = new MediaRecorder(currentStream, options);
+                    startTime = new Date().toUTCString().replaceAll(":",'$');
+
+                    mediaRecorder.ondataavailable = function (event) {
+                        if (event.data.size > 0) {
+                            recordedChunks.push(event.data);
+                        }
+                    };
+
+                    mediaRecorder.onstop = function () {
+                        var blob = new Blob(recordedChunks, { type: 'video/webm' });
+                        var formData = new FormData();
+                        formData.append('video', blob);
+                        formData.append('startTime', startTime);
+                        formData.append('endTime', new Date().toUTCString().replaceAll(":",'$',));
+
+                        fetch('/upload', {
+                            method: 'POST',
+                            body: formData
+                        })
+                            .then(response => response.text())
+                            .then(data => console.log(data))
+                            .catch(error => console.error('Error uploading the video:', error));
+                    };
+
+                    mediaRecorder.start();
+                    recordButton.textContent = 'Stop';
+                }
+
+                function stopRecording() {
+                    mediaRecorder.stop();
+                    recordButton.textContent = 'Record';
+                }
+
+                recordButton.addEventListener('click', function () {
+                    if (recordButton.textContent === 'Record') {
+                        startRecording();
+                    } else {
+                        stopRecording();
+                    }
+                });
             </script>
     </body>
 
