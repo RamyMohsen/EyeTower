@@ -10,8 +10,8 @@
                 <select id="video-select" name="videoFile">
                     <option value="none">None</option>
                     <% videos.forEach(video=> { %>
-                        <option value="<%= video %>">
-                            <%= video %>
+                        <option value="<%= video.filePath %>"">
+                            <%= video.title %>
                         </option>
                         <% }); %>
                 </select>

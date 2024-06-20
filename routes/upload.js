@@ -20,13 +20,13 @@ const storage = multer.diskStorage({
 const upload = multer({ storage: storage });
 
 router.post('/', upload.single('video'), (req, res) => {
-    const { startTime, endTime } = req.body;
-    if (!startTime || !endTime) {
-        return res.status(400).send('Missing startTime or endTime');
+    const { startTime, endTime, cam } = req.body;
+    if (!startTime || !endTime || !cam) {
+        return res.status(400).send('Missing startTime or endTime or cam');
     }
 
     const oldPath = path.join(__dirname, '../public/videos/temp.webm');
-    const newPath = path.join(__dirname, `../public/videos/${startTime}_${endTime}.webm`);
+    const newPath = path.join(__dirname, `../public/videos/${startTime}_${endTime}_${cam}.webm`);
 
     try {
         fs.renameSync(oldPath, newPath);

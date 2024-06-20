@@ -147,7 +147,16 @@ router.get('/View_recorded', (req, res) => {
                 res.status(500).send('Error reading directory');
                 return;
             }
-            res.render('View_recorded', {title: 'View Recorded Videos',  videos: files });
+
+            const videos = files.map(file => {
+                const startDate = file.split('_')[0].replaceAll('$',':');
+                const endDate = file.split('_')[1].replaceAll('$',':');
+                const cam = file.split('_')[2].replace('.webm','').replaceAll('$',':');
+                const title = `${startDate} --> ${endDate} | Camera: ${cam}`;
+                return { filePath: file, title: title};
+            });
+            console.log(videos);
+            res.render('View_recorded', {title: 'View Recorded Videos',  videos: videos });
         });
     } else {
         req.flash('error-msg', 'You must login first');

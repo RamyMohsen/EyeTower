@@ -91,6 +91,7 @@
                         formData.append('video', blob);
                         formData.append('startTime', startTime);
                         formData.append('endTime', new Date().toUTCString().replaceAll(":",'$',));
+                        formData.append('cam', cameraSelect.options[cameraSelect.selectedIndex].text.replaceAll(":",'$',));
 
                         fetch('/upload', {
                             method: 'POST',
