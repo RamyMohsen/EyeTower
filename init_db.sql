@@ -34,11 +34,23 @@ CREATE TABLE IF NOT EXISTS Cameras (
 
 CREATE TABLE IF NOT EXISTS Alert (
     alert_id INT AUTO_INCREMENT PRIMARY KEY,
-    timestamp INT NOT NULL ,
+    timestamp bigint NOT NULL ,
     description VARCHAR(512) NOT NULL ,
     severity INT NOT NULL 
 );
 
+
+CREATE TABLE IF NOT EXISTS PersonLog (
+    log_id INT AUTO_INCREMENT PRIMARY KEY,
+    person_id INT NOT NULL,
+    cam_id VARCHAR(100) NOT NULL,
+    time BIGINT NOT NULL,
+    FOREIGN KEY (person_id) REFERENCES Person(person_id),
+    FOREIGN KEY (camera) REFERENCES Cameras(cam_id)
+);
+
+INSERT INTO Cameras (name, location, location_severity) VALUES
+('USB2.0 HD UVC WebCam (13d3:56a8)', 'location1', '123');
 
 INSERT INTO account (email, password, type, name) VALUES
 ('admin1@example.com', 'password1', 'admin', 'admin1'),

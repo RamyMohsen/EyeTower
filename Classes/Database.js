@@ -80,6 +80,11 @@ class Database {
         return this.query(query, [name]);
     }
 
+    findCameraById(camId) {
+        const query = 'SELECT * FROM Cameras WHERE cam_id = ?';
+        return this.query(query, [camId]);
+    }
+
     findUser(email) {
         const query = 'SELECT * FROM account WHERE email = ?';
         return this.query(query, [email]);
@@ -118,6 +123,18 @@ class Database {
     viewAlerts(){
         const query = 'SELECT * FROM Alert ORDER BY timestamp DESC'
         return this.query(query);
+    }
+    
+    getPersonLogs(personId) {
+        const query = 'SELECT * FROM PersonLog WHERE person_id = ? ORDER BY time DESC';
+        const results = this.query(query, [personId]);
+        return results;
+    }
+
+    insertPersonLog(personId, cameraId) {
+        const query = 'INSERT INTO PersonLog (person_id, camera, time) VALUES (?, ?, UNIX_TIMESTAMP())';
+        const results = this.query(query, [personId, cameraId]);
+        return results;
     }
 }
 module.exports = Database;

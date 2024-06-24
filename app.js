@@ -7,6 +7,7 @@ const authRoutes = require('./routes/auth');
 const uploadRoutes = require('./routes/upload');
 const session = require('express-session');
 const flash = require('connect-flash');
+const eyetower = require('../Classes/EyeTower');
 
 // express app
 const app = express();
@@ -55,3 +56,9 @@ app.use((req, res) => {
     res.status(404).render('404', { title: '404' });
 });
 
+
+// Run findPersons() every 5 minutes
+const intervalInMinutes = 5;
+setInterval(async () => {
+    await eyetower.findPersons();
+}, intervalInMinutes * 60 * 1000);

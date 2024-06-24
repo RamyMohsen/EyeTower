@@ -3,6 +3,17 @@ const router = express.Router();
 const eyetower = require('../Classes/EyeTower');
 const path = require('path');
 const fs = require('fs');
+const multer = require('multer');
+
+const fileStorage = multer.diskStorage({
+    destination: (req, file, cb) => {
+        cb(null, 'public/photos/');
+    },
+    filename: (req, file, cb) => {
+        cb(null, 'temp' + file.originalname.substring(file.originalname.lastIndexOf('.')).toLowerCase());
+    }
+})
+const upload = multer({ storage: fileStorage });
 
 router.get('/Add_person', (req, res) => {
     if (req.session.loggedin == true && req.session.user.type === 'admin') {  //If user is not logged in redirect to login page
@@ -31,15 +42,6 @@ router.get('/Add_camera', (req, res) => {
         res.redirect('/Login')
     }
 })
-
-router.get('/Find', (req, res) => {
-    if (req.session.loggedin == true) {  //If user is not logged in redirect to login page
-        res.render('Find', { title: 'Find Person' });
-    } else {
-        req.flash('error-msg', 'You must login first');
-        res.redirect('/Login')
-    }
-});
 
 
 router.get('/List_persons', async (req, res) => {
@@ -161,6 +163,57 @@ router.get('/View_recorded', (req, res) => {
     } else {
         req.flash('error-msg', 'You must login first');
         res.redirect('/Login')
+    }
+});
+
+// Route to render the "Find Person" page
+router.get('/Find_person', (req, res) => {
+    if (req.session.loggedin == true) {  //If user is not logged in redirect to login page
+        res.render('Find_person', { title: 'Find Person', person: null, logs: [], error: null});
+    } else {
+        req.flash('error-msg', 'You must login first');
+        res.redirect('/Login')
+    }
+});
+
+
+// Route to find person by name
+router.get('/find_person/name', async (req, res) => {
+    const name = req.query.name;
+    try {
+        const person = await eyetower.findPerson(name);
+        if (person.length !== 0) {
+            const logs = await eyetower.getPersonLogs(person[0].person_id);
+            res.render('Find_person', { title: 'Find Person', person: person[0], logs: logs, error: null });
+        } else {
+            res.render('Find_person', { title: 'Find Person', person: null, logs: [], error: 'No person found with that name.' });
+        }
+    } catch (error) {
+        console.error('Error finding person by name:', error);
+        res.render('Find_person', { title: 'Find Person', person: null, logs: [], error: 'Internal server error.' });
+    }
+});
+
+// Route to find person by photo
+router.post('/find_person/photo', upload.single('photo'), async (req, res) => {
+    const imagePath = path.join(__dirname, '../public/photos/', req.file.filename);
+    try {
+        const person = await eyetower.findPersonByPhoto(imagePath);
+        if (person.length !== 0) {
+            const logs = await eyetower.getPersonLogs(person[0].person_id);
+            res.render('Find_person', { title: 'Find Person', person: person[0], logs: logs, error: null });
+        } else {
+            res.render('Find_person', { title: 'Find Person', person: null, logs: [], error: 'No person found with that photo.' });
+        }
+    } catch (error) {
+        console.error('Error finding person by photo:', error);
+        res.render('Find_person', { title: 'Find Person', person: null, logs: [], error: 'Internal server error.' });
+    } finally {
+        fs.unlink(imagePath, (unlinkError) => {
+            if (unlinkError) {
+                console.error(`Error deleting file ${imagePath}:`, unlinkError);
+            }
+        });
     }
 });
 

@@ -2,13 +2,19 @@ const express = require('express');
 const router = express.Router();
 const multer = require('multer');
 const eyetower = require('../Classes/EyeTower');
+const path = require('path');
+const fs = require('fs');
 
 const fileStorage = multer.diskStorage({
     destination: (req, file, cb) => {
-        cb(null, 'public/photos/');
+        const dir = path.join('public/photos/', req.body.name);
+        if (!fs.existsSync(dir)){
+            fs.mkdirSync(dir, { recursive: true });
+        }
+        cb(null, dir);
     },
     filename: (req, file, cb) => {
-        cb(null, req.query.name + file.originalname.substring(file.originalname.lastIndexOf('.')).toLowerCase());
+        cb(null, file.originalname);
     }
 });
 const upload = multer({ storage: fileStorage });

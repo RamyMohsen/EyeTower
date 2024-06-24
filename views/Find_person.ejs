@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <%- include("./partials/head.ejs") %>
+    <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+    <%- include("./partials/nav.ejs") %>
+    <div class="container">
+        <h2>Find Person</h2>
+        <div class="form-container">
+            <form id="find-by-name-form" action="/find_person/name" method="get">
+                <label for="person-name">Find by Name:</label>
+                <input type="text" id="person-name" name="name" required>
+                <button type="submit">Find</button>
+            </form>
+            <br>
+            <form id="find-by-photo-form" action="/find_person/photo" method="post" enctype="multipart/form-data">
+                <label for="person-photo">Find by Photo:</label>
+                <input type="file" id="person-photo" name="photo" accept="image/*" required>
+                <button type="submit">Find</button>
+            </form>
+        </div>
+        <div id="results">
+            <% if (person) { %>
+                <h2>Person Found:</h2>
+                <p>Name: <%= person.name %></p>
+                <p>Gender: <%= person.gender %></p>
+                <p>Age: <%= person.age %></p>
+                <p>Severity: <%= person.severity %></p>
+                <img src="..\<%= person.photo_url %>" class="person-photo">
+                <h2>Log Data:</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Camera</th>
+                            <th>Time</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% logs.forEach(log => { %>
+                            <tr>
+                                <td><%= log.camera %></td>
+                                <td><%= new Date(log.time).toLocaleString() %></td>
+                            </tr>
+                        <% }) %>
+                    </tbody>
+                </table>
+            <% } else if (error) { %>
+                <p><%= error %></p>
+            <% } %>
+        </div>
+    </div>
+</body>
+</html>
