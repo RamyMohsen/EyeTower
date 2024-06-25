@@ -126,14 +126,24 @@ class Database {
     }
     
     getPersonLogs(personId) {
-        const query = 'SELECT * FROM PersonLog WHERE person_id = ? ORDER BY time DESC';
+        const query = `
+            SELECT p.log_id, c.name AS camera_name, p.time, c.location
+            FROM PersonLog p JOIN Cameras c ON p.cam_id = c.cam_id  
+            WHERE p.person_id = ? ORDER BY p.time DESC
+        `;
         const results = this.query(query, [personId]);
         return results;
     }
 
-    insertPersonLog(personId, cameraId) {
-        const query = 'INSERT INTO PersonLog (person_id, camera, time) VALUES (?, ?, UNIX_TIMESTAMP())';
-        const results = this.query(query, [personId, cameraId]);
+    insertPersonLog(personId, cameraId, time) {
+        const query = 'INSERT INTO PersonLog (person_id, cam_id, time) VALUES (?, ?, ?)';
+        const results = this.query(query, [personId, cameraId, time]);
+        return results;
+    }
+
+    insertAlert(time, description, severity){
+        const query = 'INSERT INTO Alert (timestamp, description,  severity) VALUES (?, ?, ?)';
+        const results = this.query(query, [time, description, severity]);
         return results;
     }
 }

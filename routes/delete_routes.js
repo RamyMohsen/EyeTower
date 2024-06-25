@@ -30,17 +30,21 @@ router.delete('/Cam/:id', (req, res) => {
 
 router.delete('/Person_P/:id', (req, res) => {
   const id = req.params.id;
-  const photo_url = 'public\\' + req.query.photo_url;
+  const person_dir = 'public\\photos\\' + req.query.photo_url.split('\\')[1]
   eyetower.removePerson(id)
     .then(result => {
-      if (fs.existsSync(photo_url)) {
-        fs.unlink(photo_url, (err) => {
-          if (err) throw err;
-          console.log('File deleted!');
-        })
-      } else {
-        console.log('File not present');
-      }
+      fs.readdir(person_dir, (err, files) => {
+        if (err) {
+            console.error('Error reading directory:', err);
+            return;
+        }
+        fs.rm(person_dir, { recursive: true, force: true }, err => {
+            if (err) {
+              throw err;
+            }
+            //console.log(`${outputDir} is deleted!`);
+          });
+    });
       res.json({ redirect: '/List_persons' });
     })
     .catch(err => {

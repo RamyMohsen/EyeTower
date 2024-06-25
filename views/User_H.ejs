@@ -13,7 +13,6 @@
     <h1>Welcome <%= user.name %>
     </h1>
     <div class="container">
-      <h2> What do you want to do today</h2>
       <% if (user.type==='user' ) { %>
         <!-- User Section -->
         <div class="user-section">
@@ -22,7 +21,7 @@
             <a href="/View_recorded" class="home-btn"><img src="play_recording.png" class="home-img"><br> Playback Recorded Videos</a>
           </div>
           <div>
-            <a href="/Find" class="home-btn"><img src="find_person.png" class="home-img"><br> Find Person</a>
+            <a href="/Find_person" class="home-btn"><img src="find_person.png" class="home-img"><br> Find Person</a>
             <a href="/View_alerts" class="home-btn"><img src="view_alerts.png" class="home-img"><br> View System Alerts</a>
           </div>
         </div>

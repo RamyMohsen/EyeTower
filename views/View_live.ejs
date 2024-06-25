@@ -8,8 +8,9 @@
                 <select id="camera-select">
                     <option value="none">None</option>
                 </select>
-                <video id="video-element" autoplay></video> 
+                <video id="video-element" autoplay></video>
                 <button id="record-button">Record</button>
+                <p class="msg" id="msg"></p>
             </div>
             <script>
                 var cameraSelect = document.getElementById('camera-select');
@@ -77,7 +78,7 @@
                     recordedChunks = [];
                     var options = { mimeType: 'video/webm; codecs=vp9' };
                     mediaRecorder = new MediaRecorder(currentStream, options);
-                    startTime = new Date().toUTCString().replaceAll(":",'$');
+                    startTime = new Date().toUTCString().replaceAll(":", '$');
 
                     mediaRecorder.ondataavailable = function (event) {
                         if (event.data.size > 0) {
@@ -90,15 +91,28 @@
                         var formData = new FormData();
                         formData.append('video', blob);
                         formData.append('startTime', startTime);
-                        formData.append('endTime', new Date().toUTCString().replaceAll(":",'$',));
-                        formData.append('cam', cameraSelect.options[cameraSelect.selectedIndex].text.replaceAll(":",'$',));
+                        formData.append('endTime', new Date().toUTCString().replaceAll(":", '$',));
+                        formData.append('cam', cameraSelect.options[cameraSelect.selectedIndex].text.replaceAll(":", '$',));
 
                         fetch('/upload', {
                             method: 'POST',
                             body: formData
                         })
-                            .then(response => response.text())
-                            .then(data => console.log(data))
+                        .then((response) => {
+                            response.text().then((text) => {
+                                document.getElementById('msg').textContent = text;
+                                document.getElementById('msg').style.color = 'rgb(0, 255, 0)';
+                                setTimeout(() => {
+                                    document.getElementById('msg').textContent = '';
+                                }, 1000);
+                            }).catch((text) => {
+                                document.getElementById('msg').textContent = text;
+                                document.getElementById('msg').style.color = 'red';
+                                setTimeout(() => {
+                                    document.getElementById('msg').textContent = '';
+                                }, 1000);
+                            });
+                        })
                             .catch(error => console.error('Error uploading the video:', error));
                     };
 

@@ -30,7 +30,7 @@ router.post('/', upload.single('video'), (req, res) => {
 
     try {
         fs.renameSync(oldPath, newPath);
-        console.log('File renamed successfully');
+        //console.log('File renamed successfully');
         res.send('Video recorded successfully');
     } catch (err) {
         console.error('Error renaming file:', err);

@@ -5,7 +5,7 @@ from keras_facenet import FaceNet
 
 def get_embedding(embedder, image_path):
     try:
-        return embedder.extract(image_path, threshold=0.95)
+        return embedder.extract(image_path, threshold=0.85)
     except:
         return None
 
@@ -27,7 +27,7 @@ def find_closest(embedder, embedding, embeddings, names):
     min_dist = float('inf')
     min_name = "undefind"
     for i, e in enumerate(embeddings):
-        dist = embedder.compute_distance(embedding, e)
+        dist = embedder.compute_distance(embedding['embedding'], e[0]['embedding'])
         if dist < min_dist and  dist < 0.5:
             min_dist = dist
             min_name = names[i]

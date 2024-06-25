@@ -35,13 +35,15 @@
                         <tr>
                             <th>Camera</th>
                             <th>Time</th>
+                            <th>Location</th>
                         </tr>
                     </thead>
                     <tbody>
                         <% logs.forEach(log => { %>
                             <tr>
-                                <td><%= log.camera %></td>
+                                <td><%= log.camera_name %></td>
                                 <td><%= new Date(log.time).toLocaleString() %></td>
+                                <td><%= log.location %></td>
                             </tr>
                         <% }) %>
                     </tbody>

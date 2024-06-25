@@ -6,7 +6,7 @@ from keras_facenet import FaceNet
 
 def get_embedding(embedder, image_path):
     try:
-        return embedder.extract(image_path, threshold=0.95)[0]['embedding']
+        return embedder.extract(image_path, threshold=0.85)[0]['embedding']
     except:
         return None
 

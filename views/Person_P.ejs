@@ -6,9 +6,9 @@
         <%- include("./partials/nav.ejs") %>
             <div class="container-profile">
                 <img src="..\<%= person.photo_url %>" class="profile-photo" id="photo">
-                <div>
+                <div id="new-photo">
                     <label for="photo">Edit Photo:</label>
-                    <input type="file" id="new-photo" name="photo" accept="image/*" required>
+                    <input type="file" name="photo" accept="image/*" required>
                 </div>
                 <div class="profile-name">
                     <h3>Name:</h3>

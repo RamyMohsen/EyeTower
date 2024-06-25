@@ -157,7 +157,7 @@ router.get('/View_recorded', (req, res) => {
                 const title = `${startDate} --> ${endDate} | Camera: ${cam}`;
                 return { filePath: file, title: title};
             });
-            console.log(videos);
+            //console.log(videos);
             res.render('View_recorded', {title: 'View Recorded Videos',  videos: videos });
         });
     } else {
