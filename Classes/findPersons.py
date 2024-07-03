@@ -28,7 +28,7 @@ def find_closest(embedder, embedding, embeddings, names):
     min_name = "undefind"
     for i, e in enumerate(embeddings):
         dist = embedder.compute_distance(embedding['embedding'], e[0]['embedding'])
-        if dist < min_dist and  dist < 0.5:
+        if dist < min_dist and  dist < 1:
             min_dist = dist
             min_name = names[i]
     return min_name

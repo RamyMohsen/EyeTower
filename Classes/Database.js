@@ -44,7 +44,7 @@ class Database {
     }
 
     addUser(user) {
-      const query = 'INSERT INTO account (email, password, type, name) VALUES (?, ?, ?, ?)';
+      const query = 'INSERT INTO Account (email, password, type, name) VALUES (?, ?, ?, ?)';
       const values = [user.email, user.password, user.type, user.name];
       return this.query(query, values);
     }
@@ -61,7 +61,7 @@ class Database {
     }
     
     listAllUsers() {
-        const query = 'SELECT * FROM account ORDER BY type DESC';
+        const query = 'SELECT * FROM Account ORDER BY type DESC';
         return this.query(query);
     }
 
@@ -71,7 +71,7 @@ class Database {
     }
     
     login(email, password) {
-        const query = 'SELECT * FROM account WHERE email = ? AND password = ?';
+        const query = 'SELECT * FROM Account WHERE email = ? AND password = ?';
         return this.query(query, [email, password]);
     }
 
@@ -86,7 +86,7 @@ class Database {
     }
 
     findUser(email) {
-        const query = 'SELECT * FROM account WHERE email = ?';
+        const query = 'SELECT * FROM Account WHERE email = ?';
         return this.query(query, [email]);
     }
 
@@ -101,7 +101,7 @@ class Database {
     }
     
     modifyUser(userId, updates) {
-        const query = 'UPDATE account SET ? WHERE account_id = ?';
+        const query = 'UPDATE Account SET ? WHERE account_id = ?';
         return this.query(query, [updates, userId]);
     }
     
@@ -111,7 +111,7 @@ class Database {
     }
     
     removeUser(userId) {
-        const query = 'DELETE FROM account WHERE account_id = ?';
+        const query = 'DELETE FROM Account WHERE account_id = ?';
         return this.query(query, [userId]);
     }
     

@@ -8,7 +8,7 @@ CREATE DATABASE IF NOT EXISTS EyeTower;
 USE EyeTower;
 
 -- Create the "Account" table
-CREATE TABLE IF NOT EXISTS account (
+CREATE TABLE IF NOT EXISTS Account (
     account_id INT AUTO_INCREMENT PRIMARY KEY,
     email VARCHAR(255) NOT NULL UNIQUE,
     password VARCHAR(255) NOT NULL , 
